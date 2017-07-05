@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'booktest'
+    'booktest',
+    'ttsx_user',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'ttsx.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test2',
+        'NAME': 'user_info',
         'HOST': 'localhost',
         'POST': '3306',
         'USER': 'root',
@@ -100,7 +101,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+#makemigrations     migrate
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
