@@ -7,5 +7,11 @@ urlpatterns=[
     url(r'^register_valid/$',views.register_valid),
     url(r'^login/$',views.login),
     url(r'^login_handle/$',views.login_handle),
-
+    url(r'^logout/$',views.logout),
+    url(r'^$',views.center),
+    url(r'^order/$',views.order),
+    url(r'^site/$',views.site),
 ]
+
+
+

@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from models import *
 from hashlib import sha1
 import datetime
+from user_decorators import *
 
 # Create your views here.
 def register(request):
@@ -64,8 +65,10 @@ def login_handle(request):
         if users[0].upwd==upwd_sha1:
             #记住当前登陆的用户
             request.session['uid']=users[0].id
+            request.session['uname']=uname
             #记住用户名
-            response=redirect('/ttsx_user/')
+            path=request.session.get('url_path','/')
+            response=redirect(path)
             if uname_jz=='1':
                 response.set_cookie('uname',uname,expires=datetime.datetime.now() + datetime.timedelta(days = 7))
             else:
@@ -75,6 +78,36 @@ def login_handle(request):
             #密码错误
             context['pwd_error']='1'
         return render(request,'ttsx_user/login.html',context)
+
+
+def logout(request):
+    request.session.flush()
+    return redirect('/ttsx_user/')
+
+@user_login
+def center(request):
+    user=UserInfo.objects.get(pk=request.session['uid'])
+
+    context={'title':'用户中心','user':user}
+    return render(request,'ttsx_user/center.html',context)
+
+@user_login
+def order(request):
+    context = {'title':'用户订单'}
+    return render(request, 'ttsx_user/order.html', context)
+
+@user_login
+def site(request):
+    user = UserInfo.objects.get(pk=request.session['uid'])
+    if request.method=='POST':
+        post=request.POST
+        user.ushou=post.get('ushou')
+        user.addrss=post.get('uaddrss')
+        user.uphone=post.get('uphone')
+        user.ucode=post.get('ucode')
+        user.save()
+    context = {'title':'用户地址','user':user}
+    return render(request, 'ttsx_user/site.html', context)
 
 
 
