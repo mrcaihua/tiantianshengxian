@@ -5,8 +5,7 @@ class urlMiddleware:
                                '/ttsx_user/register_valid/',
                                '/ttsx_user/login/',
                                '/ttsx_user/login_handle/',
-                               '/ttsx_user/logout/',
-                               '/ttsx_user/login/',]:
+                               '/ttsx_user/logout/',]:
             request.session['url_path']=request.get_full_path()
 
 

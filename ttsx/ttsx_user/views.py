@@ -40,6 +40,7 @@ def register_valid(request):
 
 def login(request):
     uname=request.COOKIES.get('uname','')
+    print uname
     context={'title':'登陆','uname':uname,'top':'0'}
     return render(request,'ttsx_user/login.html',context)
 
@@ -48,24 +49,24 @@ def login_handle(request):
     post=request.POST
     uname=post.get('user_name')
     upwd=post.get('user_pwd')
-    uname_jz=post.get('user_jz','0')
+    uname_jz=post.get('name_jz', '0')
 
-    s1=sha1()
+    s1 = sha1()
     s1.update(upwd)
-    upwd_sha1=s1.hexdigest()
+    upwd_sha1 = s1.hexdigest()
 
-    context = {'title':'登陆','uname':uname,'upwd':upwd,'top':'0'}
+    context = {'title': '登陆', 'uname': uname, 'upwd': upwd, 'top':'0'}
     users=UserInfo.objects.filter(uname=uname)
-    if len(users)==0:
+    if len(users) == 0:
         #用户名错误
-        context['name_error']='1'
-        return render(request,'ttsx_user/login.html',context)
+        context['name_error'] = '1'
+        return render(request, 'ttsx_user/login.html', context)
     else:
         #登陆成功
-        if users[0].upwd==upwd_sha1:
+        if users[0].upwd == upwd_sha1:
             #记住当前登陆的用户
-            request.session['uid']=users[0].id
-            request.session['uname']=uname
+            request.session['uid'] = users[0].id
+            request.session['uname'] = uname
             #记住用户名
             path=request.session.get('url_path','/')
             response=redirect(path)
